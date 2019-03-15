@@ -23,7 +23,7 @@ Framework7.use(Framework7Vue);
 import App from './App'
 
 Vue.config.productionTip = false
-axios.defaults.withCredentials-true;
+axios.defaults.withCredentials=true;
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
