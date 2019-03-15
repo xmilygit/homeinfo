@@ -1,4 +1,4 @@
-import home from './components/helloworld.vue'
+import home from './components/index.vue'
 import funselect from './components/funselect.vue'
 export default[
     {
