@@ -13,7 +13,8 @@
     "axios": "^0.18.0",
     "framework7": "^4.1.1",
     "framework7-vue": "^4.1.1",
-    "vue": "^2.5.2"
+    "vue": "^2.5.2",
+    "weixin-js-sdk": "^1.4.0-test"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

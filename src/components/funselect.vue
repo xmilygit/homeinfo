@@ -3,7 +3,7 @@
 <f7-block>
   <f7-row>
     <f7-col>
-      <f7-button fill>家长信息补录</f7-button>
+      <f7-button fill href="/homeinfoinput/">家长信息补录</f7-button>
     </f7-col>
   </f7-row>
 </f7-block>
@@ -12,19 +12,36 @@
 </template>
 
 <script>
-import axios from 'axios'
+import wx from 'weixin-js-sdk';
+import axios from 'axios';
+import sitecfg from '@/cfg/sitecfg.js';
+wx.ready(function(){
+  wx.hideAllNonBaseMenuItem()
+})
 
 export default {
   data() {
     return {
-      msg: "Welcome to Your Vue.js App",
-      openid:''
     };
   },
+  mounted(){
+    document.getElementById("beginloading").style.display = "none";
+    this.wxcofing();
+  },
+  methods:{
+    async wxcofing(){
+      let cfgdata={
+        debug:sitecfg.wxdebug,
+        url:location.href.split('#')[0],
+        jsApiList:['hideAllNonBaseMenuItem','closeWindow']
+      }
+      try{
+        let res=await axios.post('/wechatforsvr/jsconfig/',{cfgdata:cfgdata})
+        wx.config(res.data.jsconfig)
+      }catch(err){
+        alert(err)
+      }
+    }
+  }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>  
-</style>
-

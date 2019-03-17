@@ -16,6 +16,8 @@ import Framework7Styles from 'framework7/css/framework7.bundle.css';
 import IconsStyles from './css/icons.css';
 import AppStyles from './css/app.css';
 
+import sitecfg from '@/cfg/sitecfg.js';
+
 // Init plugin and register all components
 Framework7.use(Framework7Vue);
 
@@ -24,6 +26,11 @@ import App from './App'
 
 Vue.config.productionTip = false
 axios.defaults.withCredentials=true;
+axios.defaults.baseURL=sitecfg.serverURL
+
+
+
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
