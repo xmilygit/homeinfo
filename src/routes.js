@@ -24,7 +24,8 @@ export default [
         redirect: async function (route, resolve, reject) {
             if (route.query.code) {
                 //alert(route.query.code)
-                window.location.href=sitecfg.serverURL+'/wechatforsvr/binder/?code='+route.query.code;
+                //window.location.href=sitecfg.serverURL+'/wechatforsvr/binder/?code='+route.query.code;
+                window.location=sitecfg.serverURL+'/wechatforsvr/binder/?code='+route.query.code;
                 return;
             }else if(route.query.token){
                 //alert(route.query.token)
