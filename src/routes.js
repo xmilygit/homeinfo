@@ -1,14 +1,15 @@
 import home from '@/components/index.vue'
 import funselect from '@/components/funselect.vue'
 import homeinfoinput from '@/components/homeinfoinput.vue'
+import crypto from 'crypto-js'
 import sitecfg from '@/cfg/sitecfg.js'
 // import test from './components/test.vue'
 
-// import axios from 'axios'
+import axios from 'axios'
 export default [
     {
-        path:'/binder/',
-        component:home,
+        path: '/binder/',
+        component: home,
     },
     {
         path: '/funselect/',
@@ -22,20 +23,23 @@ export default [
         path: '/',
         // component: test,
         redirect: async function (route, resolve, reject) {
-            if (route.query.code) {
-                //alert(route.query.code)
-                //window.location.href=sitecfg.serverURL+'/wechatforsvr/binder/?code='+route.query.code;
-                window.location=sitecfg.serverURL+'/wechatforsvr/binder/?code='+route.query.code;
-                return;
-            }else if(route.query.token){
-                //alert(route.query.token)
-                sessionStorage.setItem("token",route.query.token)
-                //alert(route.query.isbinder)
-                if(route.query.isbinder=='true'){
+            try {
+                let res = await axios.post(
+                    sitecfg.serverURL + sitecfg.valitoken,
+                    null,
+                    {
+                        headers: {
+                            Authorization: route.query.token
+                        }
+                    }
+                );
+                if (res.data.vali) {
+                    sessionStorage.setItem("token", route.query.token)
                     resolve('/funselect/')
-                }else{
-                    resolve('/binder/')
-                }
+                } else
+                    resolve("/error/")
+            } catch (err) {
+                alert(err)
             }
         }
 
