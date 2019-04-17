@@ -1,6 +1,7 @@
 import home from '@/components/index.vue'
 import funselect from '@/components/funselect.vue'
 import homeinfoinput from '@/components/homeinfoinput.vue'
+import graduate from '@/components/graduateinput.vue'
 import crypto from 'crypto-js'
 import sitecfg from '@/cfg/sitecfg.js'
 // import test from './components/test.vue'
@@ -20,8 +21,12 @@ export default [
         component: homeinfoinput
     },
     {
+        path:'/',
+        component:graduate
+    }
+    /*
+    {
         path: '/',
-        // component: test,
         redirect: async function (route, resolve, reject) {
             try {
                 let res = await axios.post(
@@ -45,4 +50,5 @@ export default [
 
 
     }
+    */
 ]
