@@ -10,21 +10,22 @@
         <div class="demo-facebook-date">{{stuinfo.stuclass}}</div>
         <div class="demo-facebook-date">学籍号：{{stuinfo.stuid}}</div>
       </f7-card-header>
-      <f7-card-content>
+      <f7-card-content   style="font-size:16px" >
         <p>学生身份证号：{{stuinfo.stupid}}</p>
         <p>性别：{{stuinfo.gender}}</p>
         <p>出生日期：{{stuinfo.born}}</p>
         <f7-list no-hairlines-md>
           <f7-list-item title="民族" smart-select :smart-select-params="{openIn: 'sheet'}">
               <select name="ethnic">
-                <option v-for="(item,key) in ethniclist" :key="item.id" value="{{item.ethnic}}">{{item.ethnic}}</option>
+                <option v-for="item in ethniclist" :key="item.id" value="item.ethnic">{{item.ethnic}}</option>
               </select>
             </f7-list-item>
         </f7-list>
-      </f7-card-content>
-      <f7-card-footer>
+        <p>
         <f7-button fill color="green" @click="gotopage2">已确认学生信息，下一步</f7-button>
-      </f7-card-footer>
+        </p>
+        <f7-button fill color="red" @click="stuinfoerror">学生信息有误</f7-button>
+      </f7-card-content>
     </f7-card>
 
     <f7-card class="demo-facebook-card" v-if="page2show">
@@ -38,21 +39,21 @@
         <div class="demo-facebook-date">学籍号：{{stuinfo.stuid}}</div>
       </f7-card-header>
       <f7-card-content :padding="false">
-        <form id="myform">
+        <form id="guradianform">
           <f7-list no-hairlines-md>
             <f7-list-input
               name="fname"
               id="fname"
               outline
-              label="成员1姓名"
+              label="监护人1姓名"
               floating-label
               type="text"
-              placeholder="成员1姓名"
+              placeholder="监护人1姓名"
               clear-button
               required
               validate
             ></f7-list-input>
-            <f7-list-item title="成员1与孩子的关系" smart-select :smart-select-params="{openIn: 'sheet'}">
+            <f7-list-item title="监护人1与学生的关系" smart-select :smart-select-params="{openIn: 'sheet'}">
               <select name="frelation">
                 <option value="父亲" selected>父亲</option>
                 <option value="母亲">母亲</option>
@@ -61,46 +62,17 @@
                 <option value="其他">其他</option>
               </select>
             </f7-list-item>
-            <f7-list-item title="成员1是否监护人" smart-select :smart-select-params="{openIn: 'sheet'}">
-              <select name="fguradian">
-                <option value="是" selected>是</option>
-                <option value="否">否</option>
-              </select>
-            </f7-list-item>
-
-            <f7-list-item title="成员1证件类型" smart-select :smart-select-params="{openIn: 'sheet'}">
-              <select name="fpidtype">
-                <option value="居民身份证" selected>居民身份证</option>
-                <option value="香港特区护照/身份证明">香港特区护照/身份证明</option>
-                <option value="台湾居民来往大陆通行证">台湾居民来往大陆通行证</option>
-              </select>
-            </f7-list-item>
-            <f7-list-input
-              name="fpid"
-              outline
-              label="成员1身份证件号"
-              floating-label
-              type="text"
-              placeholder="成员1身份证件号"
-              clear-button
-              required
-              validate
-              pattern="[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]"
-              data-error-message="请输入正确的身份证号码"
-            ></f7-list-input>
-
             <f7-list-input
               name="sname"
               outline
-              label="成员2姓名"
+              label="监护人2姓名"
               floating-label
               type="text"
-              placeholder="成员2姓名"
+              placeholder="监护人2姓名"
               clear-button
-              required
               validate
             ></f7-list-input>
-            <f7-list-item title="成员2与孩子的关系" smart-select :smart-select-params="{openIn: 'sheet'}">
+            <f7-list-item title="监护人2与学生的关系" smart-select :smart-select-params="{openIn: 'sheet'}">
               <select name="srelation">
                 <option value="父亲">父亲</option>
                 <option value="母亲" selected>母亲</option>
@@ -109,38 +81,12 @@
                 <option value="其他">其他</option>
               </select>
             </f7-list-item>
-            <f7-list-item title="成员2是否监护人" smart-select :smart-select-params="{openIn: 'sheet'}">
-              <select name="sguradian">
-                <option value="是" selected>是</option>
-                <option value="否">否</option>
-              </select>
-            </f7-list-item>
-
-            <f7-list-item title="成员2证件类型" smart-select :smart-select-params="{openIn: 'sheet'}">
-              <select name="spidtype">
-                <option value="居民身份证" selected>居民身份证</option>
-                <option value="香港特区护照/身份证明">香港特区护照/身份证明</option>
-                <option value="台湾居民来往大陆通行证">台湾居民来往大陆通行证</option>
-              </select>
-            </f7-list-item>
-            <f7-list-input
-              name="spid"
-              outline
-              label="成员2身份证件号"
-              floating-label
-              type="text"
-              placeholder="成员2身份证件号"
-              clear-button
-              validate
-              required
-              pattern="[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]"
-              data-error-message="请输入正确的身份证号码"
-            ></f7-list-input>
           </f7-list>
         </form>
       </f7-card-content>
       <f7-card-footer class="no-border">
-        <f7-button fill color="green" @click="save">保存</f7-button>
+        <f7-button fill color="green" @click="save">上一步</f7-button>&nbsp;&nbsp;
+        <f7-button fill color="green" @click="save">下一步</f7-button>
       </f7-card-footer>
     </f7-card>
 
@@ -188,11 +134,12 @@ export default {
         stuid: ""
       },
       ethniclist:ethnic,
+      page2show: false,
 
 
 
       page1show: true,
-      page2show: false,
+      
       sheetOpened: false,
       loading: false,
       dialogclosetype: 0,//0：不做任何操作;1:关闭当前页面
@@ -218,6 +165,9 @@ export default {
     }
   },
   methods: {
+    stuinfoerror(){
+
+    },
     dialogclose() {
       switch (this.dialogclosetype) {
         case 1:
