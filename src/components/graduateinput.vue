@@ -11,13 +11,13 @@
         <div class="demo-facebook-date">学籍号：{{stuinfo.stuid}}</div>
       </f7-card-header>
       <f7-card-content>
-        <p style="text-indent:2em">学生身份证号：</p>
-        <p style="text-indent:2em">性别：</p>
-        <p style="text-indent:2em">出生日期：</p>
+        <p>学生身份证号：{{stuinfo.stupid}}</p>
+        <p>性别：{{stuinfo.gender}}</p>
+        <p>出生日期：{{stuinfo.born}}</p>
         <f7-list no-hairlines-md>
           <f7-list-item title="民族" smart-select :smart-select-params="{openIn: 'sheet'}">
               <select name="ethnic">
-                <option value="其他">其他</option>
+                <option v-for="(item,key) in ethniclist" :key="item.id" value="{{item.ethnic}}">{{item.ethnic}}</option>
               </select>
             </f7-list-item>
         </f7-list>
@@ -182,6 +182,15 @@ import wx from "weixin-js-sdk";
 export default {
   data() {
     return {
+      stuinfo: {
+        stuname: "",
+        stuclass: "",
+        stuid: ""
+      },
+      ethniclist:ethnic,
+
+
+
       page1show: true,
       page2show: false,
       sheetOpened: false,
@@ -192,12 +201,7 @@ export default {
         title: "",
         message: "",
         cb: 0
-      },
-      stuinfo: {
-        stuname: "",
-        stuclass: "",
-        stuid: ""
-      }
+      },      
     };
   },
   components: {
@@ -205,6 +209,7 @@ export default {
   },
   mounted() {
     document.getElementById("beginloading").style.display = "none";
+    this.getbaseinfo();
   },
   watch: {
     page2show: function(val, oldval) {
@@ -228,7 +233,7 @@ export default {
       let forminfo = {};
 
       try {
-        let res = await axios.get("/homeinfo/getbaseinfo/", {
+        let res = await axios.get("/graduate/getbaseinfo/", {
           headers: {
             Authorization: sessionStorage.getItem("token")
           }
@@ -245,25 +250,29 @@ export default {
         }
         // alert(res.data.result.成员2是否监护人);
         this.stuinfo.stuname = res.data.result.学生姓名;
-        this.stuinfo.stuclass = res.data.result.班级名称;
-        this.stuinfo.stuid = res.data.result.全国学籍号;
+        this.stuinfo.stuclass = res.data.result.班级;
+        this.stuinfo.stuid = res.data.result.学籍号;
+        this.stuinfo.stupid=res.data.result.身份证件号;
+        this.stuinfo.gender=res.data.result.性别;
+        this.stuinfo.ethnic=res.data.result.民族;
+        this.stuinfo.born=this.stuinfo.stupid.substring(6,14);
         forminfo.fname = res.data.result.成员1姓名;
-        forminfo.frelation = res.data.result.成员1关系;
-        forminfo.fguradian = res.data.result.成员1是否监护人;
-        forminfo.fpidtype =
-          res.data.result.成员1身份证件类型 == "其他"
-            ? "居民身份证"
-            : res.data.result.成员1身份证件类型;
-        forminfo.fpid = res.data.result.成员1身份证件号;
+        forminfo.frelation = res.data.result.成员1与学生关系;
+        //forminfo.fguradian = res.data.result.成员1是否监护人;
+        // forminfo.fpidtype =
+        //   res.data.result.成员1身份证件类型 == "其他"
+        //     ? "居民身份证"
+        //     : res.data.result.成员1身份证件类型;
+        // forminfo.fpid = res.data.result.成员1身份证件号;
 
         forminfo.sname = res.data.result.成员2姓名;
-        forminfo.srelation = res.data.result.成员2关系;
-        forminfo.sguradian = res.data.result.成员2是否监护人;
-        forminfo.spidtype =
-          res.data.result.成员2身份证件类型 == "其他"
-            ? "居民身份证"
-            : res.data.result.成员2身份证件类型;
-        forminfo.spid = res.data.result.成员2身份证件号;
+        forminfo.srelation = res.data.result.成员2与学生关系;
+        // forminfo.sguradian = res.data.result.成员2是否监护人;
+        // forminfo.spidtype =
+        //   res.data.result.成员2身份证件类型 == "其他"
+        //     ? "居民身份证"
+        //     : res.data.result.成员2身份证件类型;
+        // forminfo.spid = res.data.result.成员2身份证件号;
 
         this.$f7.form.fillFromData("#myform", forminfo);
         this.loading = false;
