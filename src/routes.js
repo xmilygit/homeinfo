@@ -1,7 +1,7 @@
 import home from '@/components/index.vue'
 import funselect from '@/components/funselect.vue'
 import homeinfoinput from '@/components/homeinfoinput.vue'
-import graduate from '@/components/graduateinput.vue'
+import graduate from '@/components/graduate/index.vue'//'@/components/graduateinput.vue'
 import crypto from 'crypto-js'
 import sitecfg from '@/cfg/sitecfg.js'
 // import test from './components/test.vue'
