@@ -51,11 +51,16 @@ export default {
         break;
       }
     },
-    next(pageno) {
+    next(pageno,formdata) {
       switch(pageno){
         case 1:
         this.page1show=false;
         this.page2show=true;
+        break;
+        case 2:
+        console.log(formdata)
+        if(formdata.sname.trim().length<2)
+        
         break;
       }
     },

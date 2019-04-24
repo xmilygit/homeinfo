@@ -23,9 +23,13 @@
             clear-button
             required
             validate
-            @input="fname = $event.target.value"
+            @input="fnamechange($event.target.value)"
           ></f7-list-input>
-          <f7-list-item :title="fname+'与孩子的关系'" smart-select :smart-select-params="{openIn: 'sheet'}">
+          <f7-list-item
+            :title="fname+'与'+stuinfo.stuname+'的关系'"
+            smart-select
+            :smart-select-params="{openIn: 'sheet'}"
+          >
             <select name="frelation">
               <option value="父亲" selected>父亲</option>
               <option value="母亲">母亲</option>
@@ -42,10 +46,9 @@
             type="text"
             placeholder="成员2姓名"
             clear-button
-            required
-            validate
+            @input="snamechange($event.target.value)"
           ></f7-list-input>
-          <f7-list-item title="成员2与孩子的关系" smart-select :smart-select-params="{openIn: 'sheet'}">
+          <f7-list-item :title="sname+'与'+stuinfo.stuname+'的关系'" smart-select :smart-select-params="{openIn: 'sheet'}">
             <select name="srelation">
               <option value="父亲">父亲</option>
               <option value="母亲" selected>母亲</option>
@@ -68,12 +71,14 @@
 export default {
   data() {
     return {
-      fname:'监护人1',
-      sname:'监护人2'
+      fname: "监护人1",
+      sname: "监护人2"
     };
   },
   mounted() {
     this.$f7.form.fillFromData("#page2form", this.stuinfo);
+    if(this.stuinfo.fname.length>1) this.fname=this.stuinfo.fname;
+    if(this.stuinfo.sname.length>1) this.sname=this.stuinfo.sname;
   },
   props: ["stuinfo"],
   // watch:{
@@ -84,10 +89,19 @@ export default {
   // },
   methods: {
     pre() {
-      this.$emit('prepage',2)
+      this.$emit("prepage", 2);
     },
     next() {
-      this.$emit("nextpage", 2);
+      let formdata=this.$f7.form.convertToData("#page2form");
+      this.$emit("nextpage", 2,formdata);
+    },
+    fnamechange(val) {
+      if (val.length > 1) this.fname = val;
+      else this.fname = "监护人1";
+    },
+    snamechange(val) {
+      if (val.length > 1) this.sname = val;
+      else this.sname = "监护人2";
     }
   }
 };
