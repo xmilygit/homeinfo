@@ -4,7 +4,7 @@ import homeinfoinput from '@/components/homeinfoinput.vue'
 import graduate from '@/components/graduate/index.vue'//'@/components/graduateinput.vue'
 import crypto from 'crypto-js'
 import sitecfg from '@/cfg/sitecfg.js'
-// import test from './components/test.vue'
+import test from '@/components/p.vue'//'./components/test.vue'
 
 import axios from 'axios'
 export default [
@@ -22,7 +22,7 @@ export default [
     },
     {
         path:'/',
-        component:graduate
+        component:graduate//test//
     }
     /*
     {

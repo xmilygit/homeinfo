@@ -1,19 +1,23 @@
 <template>
   <f7-page>
-    <page1 :stuinfo="stuinfo"></page1>
+    <page1 :stuinfo="stuinfo" v-if="page1show" @nextpage="next"></page1>
+    <page2 :stuinfo="stuinfo" v-if="page2show" @nextpage="next" @prepage="pre"></page2>
     <loadingdialog :loading="loading" :dialoginfo="dialoginfo" @dialogclose="dialogclose"></loadingdialog>
   </f7-page>
 </template>
 
 <script>
 import page1 from "@/components/graduate/page1.vue";
+import page2 from "@/components/graduate/page2.vue";
 import loadingdialog from "@/components/loadingdialog.vue";
-import axios from 'axios'
+import axios from "axios";
 export default {
   data() {
     return {
+      page1show: true,
+      page2show:false,
       loading: false,
-      stuinfo:{},
+      stuinfo: {},
       dialoginfo: {
         show: false,
         title: "",
@@ -24,11 +28,12 @@ export default {
   },
   components: {
     page1,
+    page2,
     loadingdialog
   },
-  mounted(){
-      document.getElementById("beginloading").style.display = "none";
-      this.getbaseinfo();
+  mounted() {
+    document.getElementById("beginloading").style.display = "none";
+    this.getbaseinfo();
   },
   methods: {
     dialogclose() {
@@ -36,6 +41,22 @@ export default {
         case 1:
           this.closewindow();
           break;
+      }
+    },
+    pre(pageno){
+      switch(pageno){
+        case 2:
+        this.page1show=true;
+        this.page2show=false;
+        break;
+      }
+    },
+    next(pageno) {
+      switch(pageno){
+        case 1:
+        this.page1show=false;
+        this.page2show=true;
+        break;
       }
     },
     async getbaseinfo() {
@@ -86,6 +107,7 @@ export default {
 
         //this.$f7.form.fillFromData("#myform", forminfo);
         this.loading = false;
+        this.stuinfo = Object.assign({}, this.stuinfo);
         // alert(this.$f7.form.convertToData("#myform"));
       } catch (err) {
         this.loading = false;

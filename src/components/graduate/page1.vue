@@ -44,7 +44,7 @@ export default {
       ethniclist: ethnic
     };
   },
-  mounted() {},
+  // mounted() {},
   watch: {
     stuinfo: function(val, oldval) {
       this.$f7.form.fillFromData("#page1form", this.stuinfo);
@@ -53,7 +53,7 @@ export default {
   props: ["stuinfo"],
   methods:{
       next(){
-          
+          this.$emit("nextpage",1)
       }
   }
 };
