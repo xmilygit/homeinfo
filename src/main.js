@@ -18,6 +18,8 @@ import AppStyles from './css/app.css';
 
 import sitecfg from '@/cfg/sitecfg.js';
 
+import store from './vuex/index.js'
+
 // Init plugin and register all components
 Framework7.use(Framework7Vue);
 
@@ -35,5 +37,6 @@ axios.defaults.baseURL=sitecfg.serverURL
 new Vue({
   el: '#app',
   components: { App },
-  template: '<App/>'
+  template: '<App/>',
+  store
 })

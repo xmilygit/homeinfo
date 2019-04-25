@@ -1,12 +1,18 @@
 <template></template>
 
 <script>
+import {mapState,mapMutations} from 'vuex';
 export default {
   data() {
     return{}
   },
-  props: ["loading","dialoginfo"],
-
+  //props: ["loading","dialoginfo"],
+  computed:{
+    ...mapState({
+      loading:'showPreloader',
+      dialoginfo:'dialog'
+    })
+  },
   watch: {
     loading: function(val, oldval) {
       if (val) this.showloading(true);

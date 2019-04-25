@@ -72,6 +72,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   data() {
     return {
@@ -85,52 +86,76 @@ export default {
     if (this.stuinfo.sname.length > 1) this.sname = this.stuinfo.sname;
   },
   props: ["stuinfo"],
-  // watch:{
-  //     stuinfo:function(val,oldval){
-  //       alert('adfasfd')
-  //         //this.$f7.form.fillFromData("#page2form", this.stuinfo);
-  //     }
-  // },
   methods: {
-    pre() {
-      let formdata = this.$f7.form.convertToData("#page1form");
-      this.$emit("prepage", 2,formdata);
-    },
-    next() {
-      let self=this
+    ...mapActions("graduate", ["modiGraduateInfoAttr"]),
+
+    tempsave(go) {
+      let formdata = this.$f7.form.convertToData("#page2form");
+      let self = this;
       let dialog = this.$f7.dialog.create({
         title: "提示",
-        text: "仅填写了一个监护人姓名，是否是离异家庭？",
+        text: "仅填写了一个监护人姓名，是否是单亲家庭？",
         buttons: [
           {
             text: "是",
             onClick: function(dialog, e) {
-              self.$emit('sigle')
-              self.$emit('nextpage',2,formdata)
+              self.modiGraduateInfoAttr({
+                key: "sigle",
+                value:true
+              });
+              self.tempsaveother(go, formdata);
             }
           },
           {
             text: "否",
             onClick: function(dialog, e) {
-              self.$f7.dialog.alert('请填写监护人2姓名','提示')
+              self.$f7.dialog.alert("请填写监护人2姓名", "提示");
             }
           }
         ]
       });
-
-      let formdata = this.$f7.form.convertToData("#page2form");
       if (formdata.sname.trim().length < 2) {
         dialog.open();
-      }else{
-      this.$emit("nextpage", 2, formdata);
+      } else {
+        this.modiGraduateInfoAttr({
+          key: "sigle",
+          value:false
+        });
+        this.tempsaveother(go, formdata);
       }
     },
+    tempsaveother(go, formdata) {
+      this.modiGraduateInfoAttr({
+        key: "fname",
+        value: formdata.fname
+      });
+      this.modiGraduateInfoAttr({
+        key: "sname",
+        value: formdata.sname
+      });
+      this.modiGraduateInfoAttr({
+        key: "frelation",
+        value: formdata.frelation
+      });
+      this.modiGraduateInfoAttr({
+        key: "srelation",
+        value: formdata.srelation
+      });
+      if (go == "pre") this.$emit("prepage", 2);
+      else this.$emit("nextpage", 2);
+    },
+    pre() {
+      this.tempsave("pre");
+    },
+    next() {
+      this.tempsave("next");
+    },
     fnamechange(val) {
-      if (val.length > 1) this.fname = val;
+      if (val.trim().length > 1) this.fname = val;
       else this.fname = "监护人1";
     },
     snamechange(val) {
-      if (val.length > 1) this.sname = val;
+      if (val.trim().length > 1) this.sname = val;
       else this.sname = "监护人2";
     }
   }
