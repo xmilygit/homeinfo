@@ -1,7 +1,8 @@
 <template>
   <f7-page>
-    <page1 :stuinfo="stuinfo" v-if="page1show" @nextpage="next"></page1>
+    <page1 :stuinfo="stuinfo" v-if="page1show" @nextpage="next" @changeethnic="page1change"></page1>
     <page2 :stuinfo="stuinfo" v-if="page2show" @nextpage="next" @prepage="pre"></page2>
+    <page3 :stuinfo="stuinfo" v-if="page3show" @prepage="pre"></page3>
     <loadingdialog :loading="loading" :dialoginfo="dialoginfo" @dialogclose="dialogclose"></loadingdialog>
   </f7-page>
 </template>
@@ -9,6 +10,7 @@
 <script>
 import page1 from "@/components/graduate/page1.vue";
 import page2 from "@/components/graduate/page2.vue";
+import page3 from "@/components/graduate/page3.vue";
 import loadingdialog from "@/components/loadingdialog.vue";
 import axios from "axios";
 export default {
@@ -16,6 +18,7 @@ export default {
     return {
       page1show: true,
       page2show:false,
+      page3show:false,
       loading: false,
       stuinfo: {},
       dialoginfo: {
@@ -29,6 +32,7 @@ export default {
   components: {
     page1,
     page2,
+    page3,
     loadingdialog
   },
   mounted() {
@@ -43,11 +47,22 @@ export default {
           break;
       }
     },
-    pre(pageno){
+    pre(pageno,formdata){
       switch(pageno){
         case 2:
         this.page1show=true;
         this.page2show=false;
+        this.stuinfo.fname=formdata.fname;
+        this.stuinfo.sname=formdata.sname;
+        this.stuinfo.frelation=formdata.frelation;
+        this.stuinfo.srelation=formdata.srelation;
+        
+        //alert(this.stuinfo.ethnic)
+        //this.stuinfo = Object.assign({}, this.stuinfo);
+        break;
+        case 3:
+        this.page3show=false;
+        this.page2show=true;
         break;
       }
     },
@@ -58,11 +73,13 @@ export default {
         this.page2show=true;
         break;
         case 2:
-        console.log(formdata)
-        if(formdata.sname.trim().length<2)
-        
+        this.page2show=false;
+        this.page3show=true;        
         break;
       }
+    },
+    page1change(page1val){
+      this.stuinfo.ethnic=page1val
     },
     async getbaseinfo() {
       this.loading = true;

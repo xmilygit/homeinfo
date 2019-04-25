@@ -27,10 +27,10 @@
         </f7-list>
       </form>
       <p>
-      <f7-button fill color="green" @click="next">已确认学生信息，下一步</f7-button>
+        <f7-button fill color="green" @click="next">已确认学生信息，下一步</f7-button>
       </p>
       <p>
-          <f7-button fill color="red">学生信息有误</f7-button>
+        <f7-button fill color="red" @click="show">学生信息有误</f7-button>
       </p>
     </f7-card-content>
   </f7-card>
@@ -44,17 +44,34 @@ export default {
       ethniclist: ethnic
     };
   },
-  // mounted() {},
+  //   created(){
+  //     // if(this.stuinfo)
+  //     alert("create:"+this.stuinfo.ethnic)
+  //     this.$f7.form.fillFromData("#page1form", this.stuinfo);
+  // //alert('create:'+this.stuinfo.ethnic)
+  //   },
+  mounted() {
+    if(this.stuinfo)
+    this.$f7.form.fillFromData("#page1form", this.stuinfo);
+  },
   watch: {
     stuinfo: function(val, oldval) {
       this.$f7.form.fillFromData("#page1form", this.stuinfo);
     }
   },
   props: ["stuinfo"],
-  methods:{
-      next(){
-          this.$emit("nextpage",1)
+  methods: {
+    show() {
+      alert(this.stuinfo.ethnic);
+      this.$f7.form.fillFromData("#page1form", this.stuinfo);
+    },
+    next() {
+      let formdata = this.$f7.form.convertToData("#page1form");
+      if (formdata.ethnic != this.stuinfo.ethnic) {
+        this.$emit("changeethnic", formdata.ethnic);
       }
+      this.$emit("nextpage", 1);
+    }
   }
 };
 </script>

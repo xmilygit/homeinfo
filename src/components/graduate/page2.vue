@@ -48,7 +48,11 @@
             clear-button
             @input="snamechange($event.target.value)"
           ></f7-list-input>
-          <f7-list-item :title="sname+'与'+stuinfo.stuname+'的关系'" smart-select :smart-select-params="{openIn: 'sheet'}">
+          <f7-list-item
+            :title="sname+'与'+stuinfo.stuname+'的关系'"
+            smart-select
+            :smart-select-params="{openIn: 'sheet'}"
+          >
             <select name="srelation">
               <option value="父亲">父亲</option>
               <option value="母亲" selected>母亲</option>
@@ -77,8 +81,8 @@ export default {
   },
   mounted() {
     this.$f7.form.fillFromData("#page2form", this.stuinfo);
-    if(this.stuinfo.fname.length>1) this.fname=this.stuinfo.fname;
-    if(this.stuinfo.sname.length>1) this.sname=this.stuinfo.sname;
+    if (this.stuinfo.fname.length > 1) this.fname = this.stuinfo.fname;
+    if (this.stuinfo.sname.length > 1) this.sname = this.stuinfo.sname;
   },
   props: ["stuinfo"],
   // watch:{
@@ -89,11 +93,37 @@ export default {
   // },
   methods: {
     pre() {
-      this.$emit("prepage", 2);
+      let formdata = this.$f7.form.convertToData("#page1form");
+      this.$emit("prepage", 2,formdata);
     },
     next() {
-      let formdata=this.$f7.form.convertToData("#page2form");
-      this.$emit("nextpage", 2,formdata);
+      let self=this
+      let dialog = this.$f7.dialog.create({
+        title: "提示",
+        text: "仅填写了一个监护人姓名，是否是离异家庭？",
+        buttons: [
+          {
+            text: "是",
+            onClick: function(dialog, e) {
+              self.$emit('sigle')
+              self.$emit('nextpage',2,formdata)
+            }
+          },
+          {
+            text: "否",
+            onClick: function(dialog, e) {
+              self.$f7.dialog.alert('请填写监护人2姓名','提示')
+            }
+          }
+        ]
+      });
+
+      let formdata = this.$f7.form.convertToData("#page2form");
+      if (formdata.sname.trim().length < 2) {
+        dialog.open();
+      }else{
+      this.$emit("nextpage", 2, formdata);
+      }
     },
     fnamechange(val) {
       if (val.length > 1) this.fname = val;
