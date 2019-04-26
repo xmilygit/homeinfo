@@ -34,10 +34,21 @@
               <option value="父亲" selected>父亲</option>
               <option value="母亲">母亲</option>
               <option value="祖父母或外祖父母">祖父母或外祖父母</option>
-              <option value="兄弟姐妹">兄弟姐妹</option>
               <option value="其他">其他</option>
             </select>
           </f7-list-item>
+          <f7-list-input
+            name="ftel"
+            id="ftel"
+            outline
+            :label="fname+'联系电话'"
+            floating-label
+            type="text"
+            :placeholder="fname+'联系电话'"
+            clear-button
+            required
+            validate
+          ></f7-list-input>
           <f7-list-input
             name="sname"
             outline
@@ -57,16 +68,68 @@
               <option value="父亲">父亲</option>
               <option value="母亲" selected>母亲</option>
               <option value="祖父母或外祖父母">祖父母或外祖父母</option>
-              <option value="兄弟姐妹">兄弟姐妹</option>
               <option value="其他">其他</option>
+            </select>
+          </f7-list-item>
+          <f7-list-input
+            name="stel"
+            id="stel"
+            outline
+            :label="sname+'联系电话'"
+            floating-label
+            type="text"
+            :placeholder="sname+'联系电话'"
+            clear-button
+            validate
+          ></f7-list-input>
+          <f7-list-input
+            name="regaddress"
+            outline
+            label="学生户籍地址"
+            floating-label
+            type="text"
+            placeholder="学生所在户口本首页地址"
+            clear-button
+            required
+            validate
+          ></f7-list-input>
+          <f7-list-input
+            name="homeaddress"
+            outline
+            label="家庭住址详细地址"
+            floating-label
+            type="text"
+            placeholder="家庭住址详细地址"
+            clear-button
+            required
+            validate
+          ></f7-list-input>
+          <f7-list-item
+            title="房产情况"
+            smart-select
+            :smart-select-params="{openIn: 'sheet'}"
+          >
+            <select name="hometype">
+              <option value="监护人共有产权房" selected>监护人共有产权房</option>
+              <option value="监护人1产权房">{{fname}}产权房</option>
+              <option value="监护人2产权房">{{sname}}产权房</option>
+              <option value="监护人1单位集资房">{{fname}}单位集资房</option>
+              <option value="监护人2单位集资房">{{sname}}单位集资房</option>
+              <option value="祖父母或外祖父母产权房">祖父母或外祖父母产权房</option>
+              <option value="监护人1名义租房">{{fname}}名义租房</option>
+              <option value="监护人2名义租房">{{sname}}名义租房</option>
+              <option value="监护人1名下单位房">{{fname}}名下单位房</option>
+              <option value="监护人2名下单位房">{{sname}}下单位房</option>
+              <option value="监护人1名下公租房（租约房）或廉租房">{{fname}}名下公租房（租约房）或廉租房</option>
+              <option value="监护人2名下公租房（租约房）或廉租房">{{sname}}名下公租房（租约房）或廉租房</option>
             </select>
           </f7-list-item>
         </f7-list>
       </form>
     </f7-card-content>
     <f7-card-footer class="no-border">
-      <f7-button fill color="green" @click="pre">上一步</f7-button>
-      <f7-button fill color="green" @click="next">下一步</f7-button>
+      <f7-button fill color="green" @click="pre" style="margin-right:5px;">上一步</f7-button>
+      <f7-button fill color="green" @click="next" style="margin-left:5px;">下一步</f7-button>
     </f7-card-footer>
   </f7-card>
 </template>
@@ -101,7 +164,7 @@ export default {
             onClick: function(dialog, e) {
               self.modiGraduateInfoAttr({
                 key: "sigle",
-                value:true
+                value: true
               });
               self.tempsaveother(go, formdata);
             }
@@ -119,7 +182,7 @@ export default {
       } else {
         this.modiGraduateInfoAttr({
           key: "sigle",
-          value:false
+          value: false
         });
         this.tempsaveother(go, formdata);
       }
@@ -141,6 +204,26 @@ export default {
         key: "srelation",
         value: formdata.srelation
       });
+      this.modiGraduateInfoAttr({
+        key:"ftel",
+        value:formdata.ftel
+      });
+      this.modiGraduateInfoAttr({
+        key:'stel',
+        value:formdata.stel
+      });
+      this.modiGraduateInfoAttr({
+        key:'regaddress',
+        value:formdata.regaddress
+      });
+      this.modiGraduateInfoAttr({
+        key:'homeaddress',
+        value:formdata.homeaddress
+      });
+      this.modiGraduateInfoAttr({
+        key:'hometype',
+        value:formdata.hometype
+      })
       if (go == "pre") this.$emit("prepage", 2);
       else this.$emit("nextpage", 2);
     },

@@ -48,6 +48,10 @@ const actions = {
             stuinfo.frelation = res.data.result.成员1与学生关系;
             stuinfo.sname = res.data.result.成员2姓名;
             stuinfo.srelation = res.data.result.成员2与学生关系;
+            stuinfo.regaddress=res.data.result.现住址;
+            stuinfo.homeaddress=res.data.result.家庭地址;
+            stuinfo.ftel=res.data.result.成员1联系方式;
+            stuinfo.stel=res.data.result.成员2联系方式
             commit('setGraduateInfo',stuinfo)
         } catch (err) {
             commit('ChangeShowPreloader', false, { root: true })
