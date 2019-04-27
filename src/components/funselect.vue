@@ -3,7 +3,8 @@
 <f7-block>
   <f7-row>
     <f7-col>
-      <f7-button fill href="/homeinfoinput/">家长信息补录</f7-button>
+      <!-- <f7-button fill href="/homeinfoinput/">家长信息补录</f7-button> -->
+      <f7-button fill href="/graduateinput/">更新毕业生信息</f7-button>
     </f7-col>
   </f7-row>
 </f7-block>

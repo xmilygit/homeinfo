@@ -74,7 +74,7 @@ export default {
       let stulocal = /叠彩区|七星区|秀峰区|象山区/gi.test(
         this.stuinfo.regaddress
       );
-      
+
       let whohouse = "";
       if (/监护人1/gi.test(this.stuinfo.hometype))
         whohouse = this.stuinfo.fname;
@@ -85,8 +85,8 @@ export default {
       else whohouse = "监护人";
 
       let hashouse = /监护人共有产权房|监护人1产权房|监护人2产权房|监护人1单位集资房|监护人2单位集资房/gi.test(
-              this.stuinfo.hometype
-            );
+        this.stuinfo.hometype
+      );
       switch (type) {
         case 1:
           if (stulocal) {
@@ -102,44 +102,65 @@ export default {
               } else {
                 alert("请提供：1、户口本；2、" + whohouse + "的房产证");
               }
-            }else{
+            } else {
               //无房
-              switch(this.stuinfo.hometype){
+              switch (this.stuinfo.hometype) {
                 case "祖父母或外祖父母产权房":
-                alert("请提供：1、户口本；2、" + whohouse + "的房产证；3、填写无房查询");
-                break;
+                  alert(
+                    "请提供：1、户口本；2、" +
+                      whohouse +
+                      "的房产证；3、填写无房查询"
+                  );
+                  break;
                 case "监护人1名义租房":
                 case "监护人2名义租房":
-                alert("请提供：1、户口本；2、" + whohouse + "与房东签订的租房合同；3、房东房产证（或者复印件）4、填写无房查询");
-                break;
+                  alert(
+                    "请提供：1、户口本；2、" +
+                      whohouse +
+                      "与房东签订的租房合同；3、房东房产证（或者复印件）4、填写无房查询"
+                  );
+                  break;
                 case "监护人1名下单位房":
                 case "监护人2名下单位房":
-                alert("请提供：1、户口本；2、" + whohouse + "与单位签订的租房合同；3、填写无房查询");
-                break;
+                  alert(
+                    "请提供：1、户口本；2、" +
+                      whohouse +
+                      "与单位签订的租房合同；3、填写无房查询"
+                  );
+                  break;
                 case "监护人1名下公租房（租约房）或廉租房":
                 case "监护人2名下公租房（租约房）或廉租房":
-                alert("请提供：1、户口本；2、" + whohouse + "名下的公租房（租约房）或廉租房证本；3、填写无房查询");
-                break;
+                  alert(
+                    "请提供：1、户口本；2、" +
+                      whohouse +
+                      "名下的公租房（租约房）或廉租房证本；3、填写无房查询"
+                  );
+                  break;
               }
             }
           } else {
             //alert("外来务工");
-            alert('请提供户口本')
+            alert("请提供户口本");
           }
           break;
         case 2:
           //与监护人1同户籍
-          if(stulocal){
+          if (stulocal) {
             //四城区户籍
-            if(hashouse){
-            //有房
-          }else{
-            //无房
-          }
-          }else{
+            if (hashouse) {
+              //有房
+              if(/监护人1/gi.test(this.stuinfo.hometype)){
+                alert("请提供：1、户口本;2、"+whohouse+"的房产证")
+              }else{
+                alert("请提供：1、户口本；2、"+whohouse+"的房产证；3、"+whohouse+"与"+this.stuinfo.stuname+"的关系证明（出生证）或者"+whohouse+"的结婚证")
+              }
+            } else {
+              //无房
+            }
+          } else {
             //非四城区户籍
           }
-          
+
           break;
         case 3:
           break;
