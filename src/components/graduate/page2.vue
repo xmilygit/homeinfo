@@ -28,7 +28,7 @@
           <f7-list-item
             :title="fname+'与'+stuinfo.stuname+'的关系'"
             smart-select
-            :smart-select-params="{openIn: 'sheet'}"
+            :smart-select-params="{openIn: 'sheet',sheetCloseLinkText:'确定',closeOnSelect:true,scrollToSelectedItem:true}"
           >
             <select name="frelation">
               <option value="父亲" selected>父亲</option>
@@ -40,7 +40,7 @@
           <f7-list-item
             :title="fname+'户籍所在地'"
             smart-select
-            :smart-select-params="{openIn: 'sheet'}"
+            :smart-select-params="{openIn: 'sheet',sheetCloseLinkText:'确定',closeOnSelect:true,scrollToSelectedItem:true}"
           >
             <select name="fregaddress">
               <option value="5" selected>与孩子同一户籍</option>
@@ -61,6 +61,7 @@
             clear-button
             required
             validate
+            pattern="[0-9]*"
           ></f7-list-input>
           <f7-list-input
             name="sname"
@@ -75,7 +76,7 @@
           <f7-list-item
             :title="sname+'与'+stuinfo.stuname+'的关系'"
             smart-select
-            :smart-select-params="{openIn: 'sheet'}"
+            :smart-select-params="{openIn: 'sheet',sheetCloseLinkText:'确定',closeOnSelect:true,scrollToSelectedItem:true}"
             v-if="!sigle"
           >
             <select name="srelation">
@@ -88,7 +89,7 @@
           <f7-list-item
             :title="sname+'户籍所在地'"
             smart-select
-            :smart-select-params="{openIn: 'sheet'}"
+            :smart-select-params="{openIn: 'sheet',sheetCloseLinkText:'确定',closeOnSelect:true,scrollToSelectedItem:true}"
             v-if="!sigle"
           >
             <select name="sregaddress">
@@ -110,14 +111,15 @@
             :placeholder="sname+'联系电话'"
             clear-button
             validate
+            pattern="[0-9]*"
           ></f7-list-input>
           <f7-list-item
             title="房产情况"
             smart-select
-            :smart-select-params="{openIn: 'sheet'}"
+            :smart-select-params="{openIn: 'sheet',sheetCloseLinkText:'确定',closeOnSelect:true,scrollToSelectedItem:true}"
             :key="sigle"
           >
-            <select class="hometype" name="hometype" @change="hometypechange($event.target.value)">
+            <select name="hometype" @change="hometypechange($event.target.value)">
               <option value="监护人共有产权房">监护人共有产权房</option>
               <option value="监护人1产权房">{{fname}}产权房(或者购房合同)</option>
               <option value="监护人2产权房" v-if="!sigle">{{sname}}产权房(或者购房合同)</option>
@@ -146,7 +148,7 @@
         v-if="hashouse||!stuinfo.stulocal"
       >完成</f7-button>
       <f7-button fill color="green" @click="next" style="margin-left:5px;" v-else>下一步</f7-button>
-      <f7-button fill color="green" @click="test" style="margin-left:5px;">test</f7-button>
+      <f7-button fill color="green" @click="test" style="margin-left:5px;">下一步</f7-button>
     </f7-card-footer>
   </f7-card>
 </template>
@@ -159,15 +161,16 @@ export default {
       fname: "监护人1",
       sname: "监护人2",
       sigle: false,
-      hashouse: true
+      hashouse: true,
+      hometypehtml:null,
     };
   },
   
-  // watch:{
-  //   sigle:function(val,oldval){
-  //     this.$$("#hometype").value=this.stuinfo.hometype
-  //   }
-  // },
+  watch:{
+    sigle:function(val,oldval){
+      this.$f7.form.fillFromData("#page2form",{'hometype':this.stuinfo.hometype})
+    }
+  },
   mounted() {
     this.$f7.form.fillFromData("#page2form", this.stuinfo);
     if (this.stuinfo.fname.length > 1) this.fname = this.stuinfo.fname;
@@ -180,13 +183,9 @@ export default {
   props: ["stuinfo"],
   methods: {
     ...mapActions("graduate", ["modiGraduateInfoAttr"]),
-test(){
-      var smartSelect = this.$f7.smartSelect.get('.smart-select');
-      alert(smartSelect.getValue())
-      this.$$("#hometype").val(this.stuinfo.hometype)
-      alert(this.$$("#hometype").val())
-      
-  },
+    test(){
+let ss=this.$f7.smartSelect.get('.ts')
+    },
     tempsave(go) {
       let formdata = this.$f7.form.convertToData("#page2form");
       if (
@@ -292,6 +291,7 @@ test(){
       this.tempsave("pre");
     },
     next() {
+      if (!document.forms["page2form"].reportValidity()) return;
       this.tempsave("next");
     },
     fnamechange(val) {

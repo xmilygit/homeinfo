@@ -27,15 +27,15 @@ export default [
     {
         path: '/',
         redirect: async function (route, resolve, reject) {
-            // var ua = navigator.userAgent.toLowerCase();
-            // var isWeixin = ua.indexOf('micromessenger') != -1;
-            // var isAndroid = ua.indexOf('android') != -1;
-            // var isIos = (ua.indexOf('iphone') != -1) || (ua.indexOf('ipad') != -1);
-            // if (!isWeixin) {
-            //     resolve('/error/')
-            //     return
-            // }
-            resolve('/funselect/')
+            var ua = navigator.userAgent.toLowerCase();
+            var isWeixin = ua.indexOf('micromessenger') != -1;
+            var isAndroid = ua.indexOf('android') != -1;
+            var isIos = (ua.indexOf('iphone') != -1) || (ua.indexOf('ipad') != -1);
+            if (!isWeixin) {
+                resolve('/error/')
+                return
+            }
+            // resolve('/funselect/')
             try {
                 let res = await axios.post(
                     sitecfg.serverURL + sitecfg.valitoken,

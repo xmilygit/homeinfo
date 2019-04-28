@@ -17,7 +17,7 @@
       </f7-block>
       <form id="page1form">
         <f7-list no-hairlines-md>
-          <f7-list-item title="民族" smart-select :smart-select-params="{openIn: 'sheet'}">
+          <f7-list-item title="民族" smart-select :smart-select-params="{openIn: 'sheet',sheetCloseLinkText:'确定',closeOnSelect:true,scrollToSelectedItem:true}">
             <select name="ethnic">
               <option
                 v-for="(item,key) in ethniclist"
@@ -30,6 +30,7 @@
             name="regaddress"
             outline
             label="学生户籍地址"
+            info="户籍地址一定要与户口本首页地址栏一致"
             floating-label
             type="text"
             placeholder="学生所在户口本首页地址"
@@ -41,6 +42,7 @@
             name="homeaddress"
             outline
             label="家庭住址详细地址"
+            info="家庭住址一定要与房产证地址栏一致包含门牌号部分"
             floating-label
             type="text"
             placeholder="家庭住址详细地址"
@@ -80,6 +82,7 @@ export default {
   methods: {
     ...mapActions("graduate", ["modiGraduateInfoAttr"]),
     next() {
+      if (!document.forms["page1form"].reportValidity()) return;
       let formdata = this.$f7.form.convertToData("#page1form");
       this.modiGraduateInfoAttr({ key: "ethnic", value: formdata.ethnic });
       this.modiGraduateInfoAttr({
