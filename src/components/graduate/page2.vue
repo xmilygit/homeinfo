@@ -114,8 +114,8 @@
           <f7-list-item title="房产情况" smart-select :smart-select-params="{openIn: 'sheet'}" :key="sigle">
             <select name="hometype" @change="hometypechange($event.target.value)">
               <option value="监护人共有产权房" selected>监护人共有产权房</option>
-              <option value="监护人1产权房">{{fname}}产权房</option>
-              <option value="监护人2产权房" v-if="!sigle">{{sname}}产权房</option>
+              <option value="监护人1产权房">{{fname}}产权房(或者购房合同)</option>
+              <option value="监护人2产权房" v-if="!sigle">{{sname}}产权房(或者购房合同)</option>
               <option value="学生名下独立产权房">{{stuinfo.stuname}}名下独立产权房</option>
               <option value="监护人1单位集资房">{{fname}}单位集资房</option>
               <option value="监护人2单位集资房" v-if="!sigle">{{sname}}单位集资房</option>
