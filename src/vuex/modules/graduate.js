@@ -1,7 +1,8 @@
 import axios from 'axios'
 
 const state = {
-    graduateinfo: {}
+    graduateinfo: {},
+    dialogclosetype:0,
 };
 const mutations = {
     //设置毕业生基础信息
@@ -11,6 +12,10 @@ const mutations = {
     //毕业生信息单个属性更改
     setGraduateInfoAttr(state,val){
         state.graduateinfo[val.key]=val.value
+    },
+    //设置dialog对话框关闭后的事件参数
+    setDialogCloseType(state,val){
+        state.dialogclosetype=val;
     }
 };
 const actions = {
@@ -59,6 +64,7 @@ const actions = {
             stuinfo.hashouse = res.data.result.hashouse;
             stuinfo.hometype = res.data.result.hometype;
             stuinfo.sigle = res.data.result.sigle;
+            stuinfo.stulocal=res.data.result.stulocal;
             if(!/父亲|母亲/gi.test(stuinfo.frelation)&&!/父亲|母亲/gi.test(stuinfo.srelation))
             ;
             else if(!/父亲|母亲/gi.test(stuinfo.frelation)){
@@ -73,11 +79,12 @@ const actions = {
             commit('ChangeShowPreloader', false, { root: true })
             switch (err) {
                 case "关键数据链接失效或者是非法的！":
-                    //this.dialogclosetype = 1;
+                    commit('setDialogCloseType',1)//this.dialogclosetype = 1;
                     break;
-                default:
+                // default:
                     //this.dialogclosetype = 0;
-                    break;
+                    // commit('setDialogCloseType',0)
+                    // break;
             }
             commit('ChangeDialog',{
                 show:true,
@@ -125,11 +132,13 @@ const actions = {
                 result:'',
                 from:'存储毕业生数据并获取毕业类型回调'
             },{root:true})
+            commit('setDialogCloseType',1)
             return;
         }catch(err){
             commit('ChangeShowPreloader', false, { root: true })
             switch (err) {
                 case "关键数据链接失效或者是非法的！":
+                    commit('setDialogCloseType',1)
                     //this.dialogclosetype = 1;
                     break;
                 default:

@@ -111,9 +111,14 @@
             clear-button
             validate
           ></f7-list-input>
-          <f7-list-item title="房产情况" smart-select :smart-select-params="{openIn: 'sheet'}" :key="sigle">
-            <select name="hometype" @change="hometypechange($event.target.value)">
-              <option value="监护人共有产权房" selected>监护人共有产权房</option>
+          <f7-list-item
+            title="房产情况"
+            smart-select
+            :smart-select-params="{openIn: 'sheet'}"
+            :key="sigle"
+          >
+            <select class="hometype" name="hometype" @change="hometypechange($event.target.value)">
+              <option value="监护人共有产权房">监护人共有产权房</option>
               <option value="监护人1产权房">{{fname}}产权房(或者购房合同)</option>
               <option value="监护人2产权房" v-if="!sigle">{{sname}}产权房(或者购房合同)</option>
               <option value="学生名下独立产权房">{{stuinfo.stuname}}名下独立产权房</option>
@@ -133,9 +138,15 @@
     </f7-card-content>
     <f7-card-footer class="no-border">
       <f7-button fill color="green" @click="pre" style="margin-right:5px;">上一步</f7-button>
-      <f7-button fill color="green" @click="next" style="margin-left:5px;" v-if="hashouse">完成</f7-button>
+      <f7-button
+        fill
+        color="green"
+        @click="next"
+        style="margin-left:5px;"
+        v-if="hashouse||!stuinfo.stulocal"
+      >完成</f7-button>
       <f7-button fill color="green" @click="next" style="margin-left:5px;" v-else>下一步</f7-button>
-
+      <f7-button fill color="green" @click="test" style="margin-left:5px;">test</f7-button>
     </f7-card-footer>
   </f7-card>
 </template>
@@ -147,27 +158,47 @@ export default {
     return {
       fname: "监护人1",
       sname: "监护人2",
-      sigle:false,
-      hashouse:true,
+      sigle: false,
+      hashouse: true
     };
   },
+  
+  // watch:{
+  //   sigle:function(val,oldval){
+  //     this.$$("#hometype").value=this.stuinfo.hometype
+  //   }
+  // },
   mounted() {
     this.$f7.form.fillFromData("#page2form", this.stuinfo);
     if (this.stuinfo.fname.length > 1) this.fname = this.stuinfo.fname;
-    if (this.stuinfo.sname.length > 1) {this.sname = this.stuinfo.sname} else{ this.sigle=true};
+    if (this.stuinfo.sname.length > 1) {
+      this.sname = this.stuinfo.sname;
+    } else {
+      this.sigle = true;
+    }
   },
   props: ["stuinfo"],
   methods: {
     ...mapActions("graduate", ["modiGraduateInfoAttr"]),
-
+test(){
+      var smartSelect = this.$f7.smartSelect.get('.smart-select');
+      alert(smartSelect.getValue())
+      this.$$("#hometype").val(this.stuinfo.hometype)
+      alert(this.$$("#hometype").val())
+      
+  },
     tempsave(go) {
       let formdata = this.$f7.form.convertToData("#page2form");
-      if(
-        (formdata.frelation=='父亲'||formdata.frelation=="母亲")
-        &&
-        (formdata.srelation!='父亲'&&formdata.srelation!="母亲"&&formdata.sname.trim().length>1)
-      ){
-        this.$f7.dialog.alert('检测到第二监护人填写的不是孩子的父母亲，如果仅有一个监护人，监护人2姓名可不填写','提示')
+      if (
+        (formdata.frelation == "父亲" || formdata.frelation == "母亲") &&
+        (formdata.srelation != "父亲" &&
+          formdata.srelation != "母亲" &&
+          formdata.sname.trim().length > 1)
+      ) {
+        this.$f7.dialog.alert(
+          "检测到第二监护人填写的不是孩子的父母亲，如果仅有一个监护人，监护人2姓名可不填写",
+          "提示"
+        );
         return;
       }
       let self = this;
@@ -241,17 +272,21 @@ export default {
         value: formdata.sregaddress
       });
       this.modiGraduateInfoAttr({
-        key:'hashouse',
-        value:this.hashouse,
-      })
+        key: "hashouse",
+        value: this.hashouse
+      });
 
-      if (go == "pre") this.$emit("prepage", 2);
-      else{
-        if(this.hashouse)
+      if (go == "pre") {
+        this.$emit("prepage", 2);
+      } else {
+        if (this.hashouse || !this.stuinfo.stulocal) {
+          // alert(this.hashouse+"==finished=="+this.stuinfo.stulocal)
           this.$emit("nextpage", "finished");
-        else
-          this.$emit('nextpage',2)
-      } 
+        } else {
+          //alert(this.hashouse+"==2222=="+this.stuinfo.stulocal)
+          this.$emit("nextpage", 2);
+        }
+      }
     },
     pre() {
       this.tempsave("pre");
@@ -264,14 +299,19 @@ export default {
       else this.fname = "监护人1";
     },
     snamechange(val) {
-      if (val.trim().length > 1) {this.sname = val;this.sigle=false}
-      else {this.sname = "监护人2";this.sigle=true}
+      if (val.trim().length > 1) {
+        this.sname = val;
+        this.sigle = false;
+      } else {
+        this.sname = "监护人2";
+        this.sigle = true;
+      }
     },
-    hometypechange(e){
-      let hashouse = /监护人共有产权房|监护人1产权房|监护人2产权房|监护人1单位集资房|监护人2单位集资房/gi.test(
+    hometypechange(e) {
+      let hashouse = /监护人共有产权房|监护人1产权房|监护人2产权房|监护人1单位集资房|监护人2单位集资房|独立产权房/gi.test(
         e
       );
-      this.hashouse=hashouse?true:false
+      this.hashouse = hashouse ? true : false;
     }
   }
 };

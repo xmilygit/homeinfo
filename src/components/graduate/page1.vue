@@ -90,7 +90,10 @@ export default {
         key: "homeaddress",
         value: formdata.homeaddress
       });
-
+      this.modiGraduateInfoAttr({
+        key: "stulocal",
+        value: /叠彩|七星|秀峰|象山/gi.test(formdata.regaddress)
+      })
       this.$emit("nextpage", 1);
     }
   }

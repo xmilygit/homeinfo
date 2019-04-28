@@ -10,7 +10,7 @@ export default {
   computed:{
     ...mapState({
       loading:'showPreloader',
-      dialoginfo:'dialog'
+      dialoginfo:'dialog',
     })
   },
   watch: {
