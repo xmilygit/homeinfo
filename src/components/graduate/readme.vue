@@ -1,10 +1,10 @@
 <template>
-  <f7-block>
+  <div>
     <f7-fab position="right-top" slot="fixed" color="yellow" @click="openhelp">
       说明
     </f7-fab>
 
-    <f7-sheet class="demo-sheet" :opened="sheetOpened" @sheet:closed="sheetOpened = false">
+    <f7-sheet class="demo-sheet" style="padding:5px;" :opened="sheetOpened" @sheet:closed="sheetOpened = false">
       <f7-toolbar>
         <div class="left">填表说明</div>
         <div class="right">
@@ -25,7 +25,7 @@
         <p style="text-indent:2em">7.无房查询身份证登记：监护人无产权房的才需要填写，系统会根据所填信息自动弹出表单。叠彩区教育局将统一到房管局查询房产情况，如查出监护人有产权房，则将按所查出的房产地址作为分配依据。</p>
       </f7-page-content>
     </f7-sheet>
-  </f7-block>
+  </div>
 </template>
 
 <script>

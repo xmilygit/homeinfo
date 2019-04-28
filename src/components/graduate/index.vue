@@ -6,7 +6,7 @@
     <checkhome :stuinfo="stuinfo" v-if="checkhomepageshow" @nextpage="next" @prepage="pre"></checkhome>
     <!-- <fsreg :stuinfo="stuinfo" v-if="fsregshow" :prepage="prepage"></fsreg> -->
     <loadingdialog @dialogclose="dialogclose"></loadingdialog>
-    <readme v-show="!startshow"></readme>
+    <readme v-show="page1show||page2show||checkhomepageshow"></readme>
   </f7-page>
 </template>
 
