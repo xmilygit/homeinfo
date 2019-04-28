@@ -36,6 +36,7 @@ export default [
                 return
             }
             // resolve('/funselect/')
+            // return
             try {
                 let res = await axios.post(
                     sitecfg.serverURL + sitecfg.valitoken,

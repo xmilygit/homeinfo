@@ -1,20 +1,23 @@
 <template>
   <f7-page>
+    <start @nextpage="next" v-if="startshow"></start>
     <page1 :stuinfo="stuinfo" v-if="page1show" @nextpage="next"></page1>
     <page2 :stuinfo="stuinfo" v-if="page2show" @nextpage="next" @prepage="pre"></page2>
-    <page3 :stuinfo="stuinfo" v-if="page3show" @prepage="pre"></page3>
     <checkhome :stuinfo="stuinfo" v-if="checkhomepageshow" @nextpage="next" @prepage="pre"></checkhome>
     <!-- <fsreg :stuinfo="stuinfo" v-if="fsregshow" :prepage="prepage"></fsreg> -->
     <loadingdialog @dialogclose="dialogclose"></loadingdialog>
+    <readme v-show="!startshow"></readme>
   </f7-page>
 </template>
 
 <script>
+import start from "@/components/graduate/start.vue";
 import page1 from "@/components/graduate/page1.vue";
 import page2 from "@/components/graduate/page2.vue";
-import page3 from "@/components/graduate/page3.vue";
 import checkhome from "@/components/graduate/checkhome.vue";
+import readme from "@/components/graduate/readme.vue";
 import loadingdialog from "@/components/loadingdialog.vue";
+
 import wx from "weixin-js-sdk";
 // import axios from "axios";
 import { mapState, mapMutations, mapActions } from "vuex";
@@ -22,20 +25,21 @@ import { mapState, mapMutations, mapActions } from "vuex";
 export default {
   data() {
     return {
+      startshow:true,
       page1show: false,
       page2show: false,
-      page3show: false,
       checkhomepageshow: false,
       // checkhome:false,
       prepage: 0
     };
   },
   components: {
+    start,
     page1,
     page2,
-    page3,
     checkhome,
-    loadingdialog
+    loadingdialog,
+    readme,
   },
   computed: {
     ...mapState("graduate", {
@@ -45,7 +49,8 @@ export default {
   },
   watch: {
     stuinfo: function(val, oldval) {
-      this.page1show = true;
+      // this.page1show = true;
+      this.startshow=true;
     }
   },
   mounted() {
@@ -74,10 +79,6 @@ export default {
           this.page1show = true;
           this.page2show = false;
           break;
-        case 3:
-          this.page3show = false;
-          this.page2show = true;
-          break;
         case "checkhome":
           this.page2show = true;
           this.checkhomepageshow = false;
@@ -86,6 +87,10 @@ export default {
     },
     next(pageno) {
       switch (pageno) {
+        case 0:
+          this.page1show=true;
+          this.startshow=false;
+        break;
         case 1:
           this.page1show = false;
           this.page2show = true;

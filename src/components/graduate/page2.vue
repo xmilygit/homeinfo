@@ -148,7 +148,7 @@
         v-if="hashouse||!stuinfo.stulocal"
       >完成</f7-button>
       <f7-button fill color="green" @click="next" style="margin-left:5px;" v-else>下一步</f7-button>
-      <f7-button fill color="green" @click="test" style="margin-left:5px;">下一步</f7-button>
+      <!-- <f7-button fill color="green" @click="test" style="margin-left:5px;">下一步</f7-button> -->
     </f7-card-footer>
   </f7-card>
 </template>
