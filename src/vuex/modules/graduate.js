@@ -40,6 +40,7 @@ const actions = {
                     result:'',
                     from:'获取毕业生基础数据回调'
                 },{root:true})
+                commit('setDialogCloseType',1)
                 return;
             }
             stuinfo.stuname = res.data.result.学生姓名;
@@ -94,6 +95,7 @@ const actions = {
                 result:'',
                 from:'获取毕业生基础数据回调'
             },{root:true})
+            commit('setDialogCloseType',1)
         }
     },
     //修改毕业生信息中的单个属性
@@ -122,6 +124,7 @@ const actions = {
                     result:'',
                     from:'存储毕业生数据并获取毕业类型回调'
                 },{root:true})
+                commit('setDialogCloseType',1)
                 return;
             }
             commit('ChangeDialog',{
@@ -153,6 +156,7 @@ const actions = {
                 result:'',
                 from:'存储毕业生数据并获取毕业类型回调'
             },{root:true})
+            commit('setDialogCloseType',1)
         }
     }
 };
