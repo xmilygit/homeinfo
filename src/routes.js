@@ -4,6 +4,7 @@ import homeinfoinput from '@/components/homeinfoinput.vue'
 import graduate from '@/components/graduate/index.vue'//'@/components/graduateinput.vue'
 import crypto from 'crypto-js'
 import sitecfg from '@/cfg/sitecfg.js'
+import sid from '@/components/graduate/sid.vue'
 import test from '@/components/p.vue'//'./components/test.vue'
 
 import axios from 'axios'
@@ -14,7 +15,15 @@ export default [
     },
     {
         path: '/funselect/',
-        component: funselect
+        // component: funselect
+        redirect:async function(route,resolve,reject){
+            resolve('/sid/')
+            return
+        }
+    },
+    {
+        path:'/sid/',
+        component:sid
     },
     {
         path: '/homeinfoinput/',
