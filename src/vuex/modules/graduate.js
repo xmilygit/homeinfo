@@ -66,6 +66,7 @@ const actions = {
             stuinfo.hometype = res.data.result.hometype;
             stuinfo.sigle = res.data.result.sigle;
             stuinfo.stulocal=res.data.result.stulocal;
+            stuinfo.regmainname=res.data.result.regmainname;
             if(!/父亲|母亲/gi.test(stuinfo.frelation)&&!/父亲|母亲/gi.test(stuinfo.srelation))
             ;
             else if(!/父亲|母亲/gi.test(stuinfo.frelation)){

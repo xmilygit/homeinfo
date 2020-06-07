@@ -30,43 +30,43 @@ export default [
         component: homeinfoinput
     },
     {
-        path:'/graduateinput/',
-        component:graduate//test//
+        path:'/',
+        component:graduate
     },
-    {
-        path: '/',
-        redirect: async function (route, resolve, reject) {
-            var ua = navigator.userAgent.toLowerCase();
-            var isWeixin = ua.indexOf('micromessenger') != -1;
-            var isAndroid = ua.indexOf('android') != -1;
-            var isIos = (ua.indexOf('iphone') != -1) || (ua.indexOf('ipad') != -1);
-            if (!isWeixin) {
-                resolve('/error/')
-                return
-            }
-            // resolve('/funselect/')
-            // return
-            try {
-                let res = await axios.post(
-                    sitecfg.serverURL + sitecfg.valitoken,
-                    null,
-                    {
-                        headers: {
-                            Authorization: route.query.token
-                        }
-                    }
-                );
-                if (res.data.vali) {
-                    sessionStorage.setItem("token", route.query.token)
-                    resolve('/funselect/')
-                } else{
-                    alert('error')
-                    resolve("/error/")
-                }
-            } catch (err) {
-                alert('12312312'+err)
-            }
-        }
-    }
+
+    // {
+    //     path: '/',
+    //     redirect: async function (route, resolve, reject) {
+    //         var ua = navigator.userAgent.toLowerCase();
+    //         var isWeixin = ua.indexOf('micromessenger') != -1;
+    //         var isAndroid = ua.indexOf('android') != -1;
+    //         var isIos = (ua.indexOf('iphone') != -1) || (ua.indexOf('ipad') != -1);
+    //         if (!isWeixin) {
+    //             // resolve('/error/')
+    //             resolve("/graduateinput/")
+    //             return
+    //         }
+    //         try {
+    //             let res = await axios.post(
+    //                 sitecfg.serverURL + sitecfg.valitoken,
+    //                 null,
+    //                 {
+    //                     headers: {
+    //                         Authorization: route.query.token
+    //                     }
+    //                 }
+    //             );
+    //             if (res.data.vali) {
+    //                 sessionStorage.setItem("token", route.query.token)
+    //                 resolve('/funselect/')
+    //             } else{
+    //                 alert('error')
+    //                 resolve("/error/")
+    //             }
+    //         } catch (err) {
+    //             alert('12312312'+err)
+    //         }
+    //     }
+    // }
 
 ]

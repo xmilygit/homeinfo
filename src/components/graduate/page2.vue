@@ -120,7 +120,14 @@
             :key="sigle"
           >
             <select name="hometype" @change="hometypechange($event.target.value)">
-              <option value="监护人共有产权房">监护人共有产权房</option>
+              <option value="监护人名下产权房">监护人产权房</option>
+              <option value="学生名下独立产权房">学生名下产权房</option>
+              <option value="监护人名下单位集资房">监护人名下单位集资房</option>
+              <option value="祖父母或外祖父母产权房">祖父母或外祖父母产权房</option>
+              <option value="监护人名义租房">监护人名义租房</option>
+              <option value="监护人名义单位房">监护人名义单位房</option>
+              <option value="监护人名下公租房（租约房）或廉租房">监护人名下公租房（租约房）或廉租房</option>
+              <!-- <option value="监护人共有产权房">监护人共有产权房</option>
               <option value="监护人1产权房">{{fname}}产权房(或者购房合同)</option>
               <option value="监护人2产权房" v-if="!sigle">{{sname}}产权房(或者购房合同)</option>
               <option value="学生名下独立产权房">{{stuinfo.stuname}}名下独立产权房</option>
@@ -132,7 +139,7 @@
               <option value="监护人1名下单位房">{{fname}}名下单位房</option>
               <option value="监护人2名下单位房" v-if="!sigle">{{sname}}下单位房</option>
               <option value="监护人1名下公租房（租约房）或廉租房">{{fname}}名下公租房（租约房）或廉租房</option>
-              <option value="监护人2名下公租房（租约房）或廉租房" v-if="!sigle">{{sname}}名下公租房（租约房）或廉租房</option>
+              <option value="监护人2名下公租房（租约房）或廉租房" v-if="!sigle">{{sname}}名下公租房（租约房）或廉租房</option> -->
             </select>
           </f7-list-item>
         </f7-list>
@@ -308,9 +315,13 @@ let ss=this.$f7.smartSelect.get('.ts')
       }
     },
     hometypechange(e) {
-      let hashouse = /监护人共有产权房|监护人1产权房|监护人2产权房|监护人1单位集资房|监护人2单位集资房|独立产权房/gi.test(
+      // let hashouse = /监护人共有产权房|监护人1产权房|监护人2产权房|监护人1单位集资房|监护人2单位集资房|独立产权房/gi.test(
+      //   e
+      // );
+      let hashouse = /监护人名下产权房|学生名下独立产权房|监护人名下单位集资房/gi.test(
         e
       );
+      
       this.hashouse = hashouse ? true : false;
     }
   }

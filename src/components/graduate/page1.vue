@@ -39,6 +39,18 @@
             validate
           ></f7-list-input>
           <f7-list-input
+            name="regmainname"
+            outline
+            label="学生所在户口本户主姓名"
+            info="学生所在户口本首页“户主姓名”一栏"
+            floating-label
+            type="text"
+            placeholder="学生所在户口本户主姓名"
+            clear-button
+            required
+            validate
+          ></f7-list-input>
+          <f7-list-input
             name="homeaddress"
             outline
             label="家庭住址详细地址"
@@ -88,6 +100,10 @@ export default {
       this.modiGraduateInfoAttr({
         key: "regaddress",
         value: formdata.regaddress
+      });
+      this.modiGraduateInfoAttr({
+        key: "regmainname",
+        value: formdata.regmainname
       });
       this.modiGraduateInfoAttr({
         key: "homeaddress",
