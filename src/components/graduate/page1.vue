@@ -34,7 +34,6 @@
             floating-label
             type="text"
             placeholder="学生所在户口本首页地址"
-            clear-button
             required
             validate
           ></f7-list-input>
@@ -58,7 +57,6 @@
             floating-label
             type="text"
             placeholder="家庭住址详细地址"
-            clear-button
             required
             validate
           ></f7-list-input>

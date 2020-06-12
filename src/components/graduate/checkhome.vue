@@ -9,7 +9,7 @@
       <div class="demo-facebook-date">学籍号：{{stuinfo.stuid}}</div>
     </f7-card-header>
     <f7-card-content :padding="false">
-      <f7-block-title>无房查询身份证登记</f7-block-title>
+      <f7-block-title>身份证</f7-block-title>
       <form id="checkhomeform">
         <f7-list>
           <f7-list-input

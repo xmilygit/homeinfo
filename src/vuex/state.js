@@ -1,5 +1,6 @@
 const state={
     showPreloader:false,
+    graduateStatus:true,
     dialog:{
         show:false,
         error:false,
