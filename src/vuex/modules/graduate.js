@@ -20,7 +20,7 @@ const mutations = {
 };
 const actions = {
     //获取毕业生基础信息
-    async getGraduateInfo({ commit }, pid) {
+    async getGraduateInfo({ commit,rootState }, pid) {
         commit('ChangeShowPreloader', true, { root: true })
         let stuinfo = {};
 
@@ -42,6 +42,17 @@ const actions = {
                 },{root:true})
                 commit('setDialogCloseType',1)
                 return;
+            }
+            if(!rootState.graduateStatus){
+                commit('ChangeDialog',{
+                    show:true,
+                    error:false,
+                    message:"注意：系统已关闭，已不支持修改，可以查看，修改内容不会被保存！",
+                    title:'提示',
+                    result:'',
+                    from:'获取毕业生基础数据回调'
+                },{root:true})
+                commit('setDialogCloseType',0)
             }
             stuinfo.stuname = res.data.result.学生姓名;
             stuinfo.stuclass = res.data.result.班级;
@@ -104,7 +115,20 @@ const actions = {
         commit('setGraduateInfoAttr',val)
     },
     //信息存入数据库
-    async saveGraduateInfo({commit}){
+    async saveGraduateInfo({commit,rootState}){
+        if(!rootState.graduateStatus){
+            commit('ChangeDialog',{
+                show:true,
+                error:false,
+                message:"注意：系统已关闭，已不支持修改，可以查看，修改内容不会被保存！",
+                title:'提示',
+                result:'',
+                from:'获取毕业生基础数据回调'
+            },{root:true})
+            commit('setDialogCloseType',1)
+            return;
+        }
+
         commit('ChangeShowPreloader', true, { root: true })
 
         try {

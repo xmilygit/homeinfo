@@ -17,7 +17,7 @@ const myPlugin=async store=>{
     state.showPreloader=true;
     try{
         let rs=await axios.get('/sys/funstatus/?funname=graduate')
-        state.graduateStatus=rs[0].value;
+        state.graduateStatus=rs.data.result;
         state.showPreloader=false
     }catch(err){
         state.showPreloader=false
