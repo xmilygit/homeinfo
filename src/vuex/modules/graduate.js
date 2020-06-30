@@ -3,11 +3,16 @@ import axios from 'axios'
 const state = {
     graduateinfo: {},
     dialogclosetype:0,
+    graduatetableinfo:{},
 };
 const mutations = {
     //设置毕业生基础信息
     setGraduateInfo(state,val){
         state.graduateinfo=val
+    },
+    //设置毕业生登记表数据
+    setGraduateTableInfo(state,val){
+        state.graduatetableinfo=val;
     },
     //毕业生信息单个属性更改
     setGraduateInfoAttr(state,val){
@@ -19,6 +24,51 @@ const mutations = {
     }
 };
 const actions = {
+    //获取毕业生登记表信息
+    async graduateTable({commit},pid){
+        commit('ChangeShowPreloader', true, { root: true });
+        try{
+            let res=await axios.get('/graduate/graduatetableinfo/',{
+                headers:{
+                    Authorization:sessionStorage.getItem('token')
+                }
+            })
+            commit('ChangeShowPreloader', false, { root: true })
+            if (res.data.error) {
+                commit('ChangeDialog',{
+                    show:true,
+                    error:true,
+                    message:"错误：服务器执行了操作，但出错了。（" + res.data.message + "）",
+                    title:'出错了',
+                    result:'',
+                    from:'获取毕业生登记表数据回调'
+                },{root:true})
+                commit('setDialogCloseType',1)
+                return;
+            }
+            commit("setGraduateTableInfo",res.data.result)
+        }catch(err){
+            commit('ChangeShowPreloader', false, { root: true })
+            switch (err) {
+                case "关键数据链接失效或者是非法的！":
+                    commit('setDialogCloseType',1)//this.dialogclosetype = 1;
+                    break;
+                // default:
+                    //this.dialogclosetype = 0;
+                    // commit('setDialogCloseType',0)
+                    // break;
+            }
+            commit('ChangeDialog',{
+                show:true,
+                error:true,
+                message:"错误：服务器未执行操作（" + err + "）",
+                title:'系统出错了',
+                result:'',
+                from:'获取毕业生登记表数据回调'
+            },{root:true})
+            commit('setDialogCloseType',1)
+        }
+    },
     //获取毕业生基础信息
     async getGraduateInfo({ commit,rootState }, pid) {
         commit('ChangeShowPreloader', true, { root: true })

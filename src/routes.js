@@ -6,7 +6,7 @@ import crypto from 'crypto-js'
 import sitecfg from '@/cfg/sitecfg.js'
 import sid from '@/components/graduate/sid.vue'
 import test from '@/components/p.vue'//'./components/test.vue'
-
+import graduatetable from "@/components/graduate/graduatetable.vue"
 import axios from 'axios'
 export default [
     {
@@ -30,8 +30,13 @@ export default [
         component: homeinfoinput
     },
     {
+        path:'/graduatetable/',
+        component:graduatetable,
+    },
+    {
         path:'/',
-        component:graduate
+        // component:graduate
+        component:graduatetable,
     },
 
     // {

@@ -21,14 +21,14 @@ const myPlugin=async store=>{
         state.showPreloader=false
     }catch(err){
         state.showPreloader=false
-        state.dialog={
-            show:true,
-            error:true,
-            message:err.message,
-            title:'获取系统开关状态出错',
-            result:'',
-            from:'root',
-        }
+        // state.dialog={
+        //     show:true,
+        //     error:true,
+        //     message:err.message,
+        //     title:'获取系统开关状态出错',
+        //     result:'',
+        //     from:'root',
+        // }
     }
 }
 export default new vuex.Store({
