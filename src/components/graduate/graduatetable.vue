@@ -1,6 +1,7 @@
 <template>
   <div style="text-align:center">
     <h2 style="margin-bottom:30px">2020年桂林市小学毕业生登记表</h2>
+    <div id="tt"></div>
     <table style="margin:auto">
       <tr>
         <td>
@@ -125,27 +126,54 @@ export default {
     ...mapActions("graduate", ["graduateTable"]),
     dialogclose() {},
     async pdf(){
+      let res = await axios.post("/test/webpagetopdf/",null, {
+          responseType: "arraybuffer"
+        });
+
+        const content = res.data;
+        const blob = new Blob([content],{type:"application/pdf"});
+        const fileName = "test.pdf";
+
+      if(window.navigator&&window.navigator.msSaveOrOpenBlob){
+        navigator.msSaveBlob(blob)
+      }else{
+        let url=window.URL.createObjectURL(blob);
+        let link=document.createElement('a');
+        link.href=url;
+        link.innerHTML="download"
+        link.setAttribute('download',fileName);
+        document.getElementById('tt').appendChild(link);
+        link.click();
+        URL.revokeObjectURL(url);
+        // document.getElementById('tt').removeChild(link);
+      }
+
+    },
+    async pdf1(){
 
 
       try {
-        let res = await axios.get("/test/webpagetopdf/", {
+        let res = await axios.post("/test/webpagetopdf/",null, {
           responseType: "blob"
         });
+
         const content = res.data;
-        const blob = new Blob([content]);
+        const blob = new Blob([content],{type:"application/pdf"});
         const fileName = "test.pdf";
 
         if ("download" in document.createElement("a")) {
           //支持a标签download的浏览器
-          const link = document.createElement("a"); //创建a标签
-          link.download = fileName; //a标签添加属性
-          link.style.display = "none";
+          const elink = document.createElement("a"); //创建a标签
+          elink.download = fileName; //a标签添加属性
+          // elink.style.display = "none";
+          elink.innerHTML="asdfasfas"
           const href=URL.createObjectURL(blob);//.replace('8080','3000');
-          link.href = href;
-          document.body.appendChild(link);
-          link.click(); //执行下载
-          URL.revokeObjectURL(link.href); //释放url
-          document.body.removeChild(link); //释放标签
+          elink.href = href;
+          // document.body.appendChild(elink);
+          document.getElementById("tt").appendChild(elink)
+          elink.click(); //执行下载
+          // URL.revokeObjectURL(elink.href); //释放url
+          // document.body.removeChild(elink); //释放标签
         } else {
           //其他浏览器
           navigator.msSaveBlob(blob, fileName);
