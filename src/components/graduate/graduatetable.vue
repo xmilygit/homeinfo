@@ -102,6 +102,8 @@
 import { mapState, mapMutations, mapActions } from "vuex";
 import loadingdialog from "@/components/loadingdialog.vue";
 import axios from "axios";
+import filesave from "file-saver";
+
 export default {
   data() {
     return {
@@ -124,41 +126,61 @@ export default {
   },
   methods: {
     ...mapActions("graduate", ["graduateTable"]),
+    ...mapMutations(["ChangeShowPreloader"]),
     dialogclose() {},
-    async pdf(){
-      let res = await axios.post("/test/webpagetopdf/",null, {
-          responseType: "arraybuffer"
+    async pdf() {
+      this.ChangeShowPreloader(true);
+      try {
+        let res = await axios.get("/test/webpagetopdf/", null, {
+          responseType: "blob"
         });
-
+        this.ChangeShowPreloader(false);
         const content = res.data;
-        const blob = new Blob([content],{type:"application/pdf"});
-        const fileName = "test.pdf";
+        // const blob = new Blob([content],{type:"application/pdf"});
+        // const fileName = "test.pdf";
 
-      if(window.navigator&&window.navigator.msSaveOrOpenBlob){
-        navigator.msSaveBlob(blob)
-      }else{
-        let url=window.URL.createObjectURL(blob);
-        let link=document.createElement('a');
-        link.href=url;
-        link.innerHTML="download"
-        link.setAttribute('download',fileName);
-        document.getElementById('tt').appendChild(link);
+        //接收PDF
+        var blob = new Blob([content], { type: "application/pdf" });
+        
+        //接收图片
+        // var blob=new Blob([content],{type:'image/png'})
+        // window.location=window.URL.createObjectURL(blob)
+        filesave.saveAs(blob, "hell.pdf");
+      } catch (err) {
+        alert(err.message);
+      }
+    },
+    async pdf0() {
+      let res = await axios.post("/test/webpagetopdf/", null, {
+        responseType: "arraybuffer"
+      });
+
+      const content = res.data;
+      const blob = new Blob([content], { type: "application/pdf" });
+      const fileName = "test.pdf";
+
+      if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+        navigator.msSaveBlob(blob);
+      } else {
+        let url = window.URL.createObjectURL(blob);
+        let link = document.createElement("a");
+        link.href = url;
+        link.innerHTML = "download";
+        link.setAttribute("download", fileName);
+        document.getElementById("tt").appendChild(link);
         link.click();
         URL.revokeObjectURL(url);
         // document.getElementById('tt').removeChild(link);
       }
-
     },
-    async pdf1(){
-
-
+    async pdf1() {
       try {
-        let res = await axios.post("/test/webpagetopdf/",null, {
+        let res = await axios.post("/test/webpagetopdf/", null, {
           responseType: "blob"
         });
 
         const content = res.data;
-        const blob = new Blob([content],{type:"application/pdf"});
+        const blob = new Blob([content], { type: "application/pdf" });
         const fileName = "test.pdf";
 
         if ("download" in document.createElement("a")) {
@@ -166,11 +188,11 @@ export default {
           const elink = document.createElement("a"); //创建a标签
           elink.download = fileName; //a标签添加属性
           // elink.style.display = "none";
-          elink.innerHTML="asdfasfas"
-          const href=URL.createObjectURL(blob);//.replace('8080','3000');
+          elink.innerHTML = "asdfasfas";
+          const href = URL.createObjectURL(blob); //.replace('8080','3000');
           elink.href = href;
           // document.body.appendChild(elink);
-          document.getElementById("tt").appendChild(elink)
+          document.getElementById("tt").appendChild(elink);
           elink.click(); //执行下载
           // URL.revokeObjectURL(elink.href); //释放url
           // document.body.removeChild(elink); //释放标签
@@ -192,9 +214,6 @@ export default {
       } catch (err) {
         alert(err.message);
       }
-
-
-
     }
   },
   mounted() {

@@ -8,36 +8,58 @@ import sid from '@/components/graduate/sid.vue'
 import test from '@/components/p.vue'//'./components/test.vue'
 import graduatetable from "@/components/graduate/graduatetable.vue"
 import axios from 'axios'
+import jump from '@/components/jump.vue'
 export default [
+    // {
+    //     path: '/binder/',
+    //     component: home,
+    // },
+    // {
+    //     path: '/funselect/',
+    //     // component: funselect
+    //     redirect: async function (route, resolve, reject) {
+    //         resolve('/sid/')
+    //         return
+    //     }
+    // },
+    // {
+    //     path: '/sid/',
+    //     component: sid
+    // },
+    // {
+    //     path: '/homeinfoinput/',
+    //     component: homeinfoinput
+    // },
     {
-        path: '/binder/',
-        component: home,
+        path: '/graduatetable/',
+        component: graduatetable,
     },
     {
-        path: '/funselect/',
-        // component: funselect
-        redirect:async function(route,resolve,reject){
-            resolve('/sid/')
-            return
+        path: '/',
+        // component:graduate
+        // component:graduatetable,
+        redirect: async function (route, resolve, reject) {
+            var ua = navigator.userAgent.toLowerCase();
+            var isWeixin = ua.indexOf('micromessenger') != -1;
+            var isAndroid = ua.indexOf('android') != -1;
+            var isIos = (ua.indexOf('iphone') != -1) || (ua.indexOf('ipad') != -1);
+            if (!isWeixin) {
+                // resolve('/error/')
+                alert('no')
+                window.location="http://mxthink.cross.echosite.cn/test/webpagetopdf"
+                return
+            }else{
+                alert('yes')
+                resolve('/jump')
+
+            }
         }
     },
     {
-        path:'/sid/',
-        component:sid
-    },
-    {
-        path: '/homeinfoinput/',
-        component: homeinfoinput
-    },
-    {
-        path:'/graduatetable/',
-        component:graduatetable,
-    },
-    {
-        path:'/',
-        // component:graduate
-        component:graduatetable,
-    },
+        path: '/jump',
+        component: jump,
+        
+    }
 
     // {
     //     path: '/',
